@@ -1,61 +1,91 @@
 <template>
   <div class="home">
-    <h2>欢迎使用ProTools工具集</h2>
+    <el-page-header content="欢迎使用ProTools工具集" />
     <p>这是一个实用的前端工具集合，包含多种常用的转换和计算功能。</p>
-    <div class="tools-grid">
-      <div class="tool-card">
-        <h3>⏰ 时间戳转换</h3>
-        <p>Unix时间戳与日期时间相互转换</p>
-      </div>
-      <div class="tool-card">
-        <h3>🔢 数字大小写转换</h3>
-        <p>阿拉伯数字与中文大写数字相互转换</p>
-      </div>
-      <div class="tool-card">
-        <h3>🔓 Base64编解码</h3>
-        <p>文本与Base64格式相互转换</p>
-      </div>
-      <div class="tool-card">
-        <h3>🔒 哈希计算</h3>
-        <p>MD5、SHA等多种哈希算法</p>
-      </div>
-    </div>
+    <el-row :gutter="20" class="tools-grid">
+      <el-col :span="6" v-for="tool in tools" :key="tool.name">
+        <el-card class="tool-card" shadow="hover" @click="goToTool(tool.route)">
+          <div class="tool-icon">{{ tool.icon }}</div>
+          <h3>{{ tool.name }}</h3>
+          <p>{{ tool.description }}</p>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomePage'
+  name: 'HomePage',
+  data() {
+    return {
+      tools: [
+        {
+          name: '时间戳转换',
+          icon: '⏰',
+          description: 'Unix时间戳与日期时间相互转换',
+          route: '/timestamp'
+        },
+        {
+          name: '数字大小写转换',
+          icon: '🔢',
+          description: '阿拉伯数字与中文大写数字相互转换',
+          route: '/number-converter'
+        },
+        {
+          name: 'Base64编解码',
+          icon: '🔓',
+          description: '文本与Base64格式相互转换',
+          route: '/base64'
+        },
+        {
+          name: '哈希计算',
+          icon: '🔒',
+          description: 'MD5、SHA等多种哈希算法',
+          route: '/hash'
+        }
+      ]
+    }
+  },
+  methods: {
+    goToTool(route) {
+      this.$router.push(route);
+    }
+  }
 }
 </script>
 
 <style scoped>
 .home {
-  text-align: center;
   padding: 2rem;
 }
 
 .tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
   margin-top: 2rem;
 }
 
 .tool-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  cursor: pointer;
+  text-align: center;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.tool-card:hover {
-  transform: translateY(-5px);
+.tool-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .tool-card h3 {
-  margin-top: 0;
-  color: #34495e;
+  margin: 10px 0 5px 0;
+  font-size: 1.1rem;
+}
+
+.tool-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #606266;
 }
 </style>

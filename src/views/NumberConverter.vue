@@ -1,36 +1,42 @@
 <template>
   <div class="converter">
-    <h2>🔢 数字大小写转换工具</h2>
-    <div class="converter-container">
-      <div class="input-section">
-        <label>输入数字：</label>
-        <input 
-          type="text" 
-          v-model="inputValue" 
-          placeholder="输入阿拉伯数字 (例如: 123456)"
-          @input="convertNumbers"
-        >
-      </div>
+    <el-page-header content="🔢 数字大小写转换工具" />
+    <el-card class="converter-container">
+      <el-form :model="formData" label-position="top">
+        <el-form-item label="输入数字：">
+          <el-input 
+            v-model="formData.inputValue" 
+            placeholder="输入阿拉伯数字 (例如: 123456)"
+            @input="convertNumbers"
+            clearable
+          />
+        </el-form-item>
+      </el-form>
 
-      <div class="result-section">
-        <div class="result-item">
-          <label>中文小写：</label>
-          <input type="text" :value="chineseLowercase" readonly>
-        </div>
-        <div class="result-item">
-          <label>中文大写：</label>
-          <input type="text" :value="chineseUppercase" readonly>
-        </div>
-        <div class="result-item">
-          <label>罗马数字：</label>
-          <input type="text" :value="romanNumerals" readonly>
-        </div>
-      </div>
+      <el-divider content-position="left">转换结果</el-divider>
 
-      <div class="actions">
-        <button @click="clearAll">清空</button>
-      </div>
-    </div>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="中文小写：">
+            <el-input v-model="formData.chineseLowercase" readonly />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="中文大写：">
+            <el-input v-model="formData.chineseUppercase" readonly />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="罗马数字：">
+            <el-input v-model="formData.romanNumerals" readonly />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-divider />
+
+      <el-button @click="clearAll">清空</el-button>
+    </el-card>
   </div>
 </template>
 
@@ -39,28 +45,30 @@ export default {
   name: 'NumberConverter',
   data() {
     return {
-      inputValue: '',
-      chineseLowercase: '',
-      chineseUppercase: '',
-      romanNumerals: ''
+      formData: {
+        inputValue: '',
+        chineseLowercase: '',
+        chineseUppercase: '',
+        romanNumerals: ''
+      }
     }
   },
   methods: {
     convertNumbers() {
-      if (!this.inputValue) {
+      if (!this.formData.inputValue) {
         this.clearResults();
         return;
       }
 
-      const num = parseInt(this.inputValue);
+      const num = parseInt(this.formData.inputValue);
       if (isNaN(num) || num < 0 || num > 999999999) {
         this.clearResults();
         return;
       }
 
-      this.chineseLowercase = this.numberToChineseLowercase(num);
-      this.chineseUppercase = this.numberToChineseUppercase(num);
-      this.romanNumerals = this.numberToRoman(num);
+      this.formData.chineseLowercase = this.numberToChineseLowercase(num);
+      this.formData.chineseUppercase = this.numberToChineseUppercase(num);
+      this.formData.romanNumerals = this.numberToRoman(num);
     },
     numberToChineseLowercase(num) {
       const units = ['', '十', '百', '千'];
@@ -80,7 +88,7 @@ export default {
         result += this.convertSection(wan, digits, units) + '万';
         
         if (remainder > 0) {
-          if (remainder < 1000 && Math.floor(num / 10000) % 10 !== 0) {
+          if (remainder < 1000 && Math.floor(num / 10000) % 10 > 0) {
             result += '零';
           }
           result += this.convertSection(remainder, digits, units);
@@ -100,7 +108,7 @@ export default {
       if (num === 0) return '';
 
       let result = '';
-      const strNum = num.toString().padStart(Math.ceil(num.toString().length), '0');
+      const strNum = num.toString();
       const len = strNum.length;
 
       for (let i = 0; i < len; i++) {
@@ -142,7 +150,7 @@ export default {
         result += this.convertSectionUppercase(wan, digits, units) + '万';
         
         if (remainder > 0) {
-          if (remainder < 1000 && Math.floor(num / 10000) % 10 !== 0) {
+          if (remainder < 1000 && Math.floor(num / 10000) % 10 > 0) {
             result += '零';
           }
           result += this.convertSectionUppercase(remainder, digits, units);
@@ -198,13 +206,13 @@ export default {
              ones[num % 10];
     },
     clearAll() {
-      this.inputValue = '';
+      this.formData.inputValue = '';
       this.clearResults();
     },
     clearResults() {
-      this.chineseLowercase = '';
-      this.chineseUppercase = '';
-      this.romanNumerals = '';
+      this.formData.chineseLowercase = '';
+      this.formData.chineseUppercase = '';
+      this.formData.romanNumerals = '';
     }
   }
 }
@@ -212,77 +220,16 @@ export default {
 
 <style scoped>
 .converter {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 .converter-container {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-top: 1rem;
 }
 
-.input-section {
-  margin-bottom: 1.5rem;
-}
-
-.input-section label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.input-section input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.result-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.result-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.result-item label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.result-item input {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-
-.actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #359c6d;
+.el-divider {
+  margin: 20px 0;
 }
 </style>

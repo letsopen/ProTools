@@ -1,37 +1,45 @@
 <template>
   <div class="converter">
-    <h2>⏰ 时间戳转换工具</h2>
-    <div class="converter-container">
-      <div class="input-section">
-        <label>输入时间戳或日期：</label>
-        <input 
-          type="text" 
-          v-model="inputValue" 
-          placeholder="输入Unix时间戳或日期 (YYYY-MM-DD HH:mm:ss)"
-          @input="convertInput"
-        >
-      </div>
+    <el-page-header content="⏰ 时间戳转换工具" />
+    <el-card class="converter-container">
+      <el-form :model="formData" label-position="top">
+        <el-form-item label="输入时间戳或日期：">
+          <el-input 
+            v-model="formData.inputValue" 
+            placeholder="输入Unix时间戳或日期 (YYYY-MM-DD HH:mm:ss)"
+            @input="convertInput"
+            clearable
+          />
+        </el-form-item>
+      </el-form>
 
-      <div class="result-section">
-        <div class="result-item">
-          <label>本地时间：</label>
-          <input type="text" :value="localTime" readonly>
-        </div>
-        <div class="result-item">
-          <label>UTC时间：</label>
-          <input type="text" :value="utcTime" readonly>
-        </div>
-        <div class="result-item">
-          <label>Unix时间戳：</label>
-          <input type="text" :value="unixTimestamp" readonly>
-        </div>
-      </div>
+      <el-divider content-position="left">转换结果</el-divider>
 
-      <div class="actions">
-        <button @click="setCurrentTime">设为当前时间</button>
-        <button @click="clearAll">清空</button>
-      </div>
-    </div>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item label="本地时间：">
+            <el-input v-model="formData.localTime" readonly />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="UTC时间：">
+            <el-input v-model="formData.utcTime" readonly />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="Unix时间戳：">
+            <el-input v-model="formData.unixTimestamp" readonly />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-divider />
+
+      <el-button-group>
+        <el-button type="primary" @click="setCurrentTime">设为当前时间</el-button>
+        <el-button @click="clearAll">清空</el-button>
+      </el-button-group>
+    </el-card>
   </div>
 </template>
 
@@ -40,15 +48,17 @@ export default {
   name: 'TimestampConverter',
   data() {
     return {
-      inputValue: '',
-      localTime: '',
-      utcTime: '',
-      unixTimestamp: ''
+      formData: {
+        inputValue: '',
+        localTime: '',
+        utcTime: '',
+        unixTimestamp: ''
+      }
     }
   },
   methods: {
     convertInput() {
-      if (!this.inputValue) {
+      if (!this.formData.inputValue) {
         this.clearResults();
         return;
       }
@@ -56,13 +66,13 @@ export default {
       let dateObj;
 
       // 检查是否为时间戳
-      if (/^\d+$/.test(this.inputValue)) {
+      if (/^\d+$/.test(this.formData.inputValue)) {
         // Unix时间戳
-        const timestamp = parseInt(this.inputValue);
+        const timestamp = parseInt(this.formData.inputValue);
         dateObj = new Date(timestamp * 1000); // 秒级时间戳
       } else {
         // 尝试解析日期字符串
-        dateObj = new Date(this.inputValue);
+        dateObj = new Date(this.formData.inputValue);
       }
 
       if (isNaN(dateObj.getTime())) {
@@ -74,27 +84,27 @@ export default {
     },
     updateResults(dateObj) {
       // 本地时间
-      this.localTime = dateObj.toLocaleString();
+      this.formData.localTime = dateObj.toLocaleString();
 
       // UTC时间
-      this.utcTime = dateObj.toISOString().replace('T', ' ').substring(0, 19);
+      this.formData.utcTime = dateObj.toISOString().replace('T', ' ').substring(0, 19);
 
       // Unix时间戳
-      this.unixTimestamp = Math.floor(dateObj.getTime() / 1000).toString();
+      this.formData.unixTimestamp = Math.floor(dateObj.getTime() / 1000).toString();
     },
     setCurrentTime() {
       const now = new Date();
-      this.inputValue = Math.floor(now.getTime() / 1000).toString(); // 设置为Unix时间戳
+      this.formData.inputValue = Math.floor(now.getTime() / 1000).toString(); // 设置为Unix时间戳
       this.updateResults(now);
     },
     clearAll() {
-      this.inputValue = '';
+      this.formData.inputValue = '';
       this.clearResults();
     },
     clearResults() {
-      this.localTime = '';
-      this.utcTime = '';
-      this.unixTimestamp = '';
+      this.formData.localTime = '';
+      this.formData.utcTime = '';
+      this.formData.unixTimestamp = '';
     }
   }
 }
@@ -102,76 +112,16 @@ export default {
 
 <style scoped>
 .converter {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 .converter-container {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-top: 1rem;
 }
 
-.input-section {
-  margin-bottom: 1.5rem;
-}
-
-.input-section label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.input-section input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.result-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.result-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.result-item label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.result-item input {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-
-.actions {
-  display: flex;
-  gap: 1rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #359c6d;
+.el-divider {
+  margin: 20px 0;
 }
 </style>

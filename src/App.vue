@@ -1,24 +1,44 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <h1>ProTools 工具集</h1>
-      <ul>
-        <li><router-link to="/">首页</router-link></li>
-        <li><router-link to="/timestamp">时间戳转换</router-link></li>
-        <li><router-link to="/number-converter">数字大小写转换</router-link></li>
-        <li><router-link to="/base64">Base64编码解码</router-link></li>
-        <li><router-link to="/hash">哈希计算</router-link></li>
-      </ul>
-    </nav>
-    <div class="container">
-      <router-view />
-    </div>
+    <el-container>
+      <el-header>
+        <h1>ProTools 工具集</h1>
+        <el-menu
+          :default-active="activeIndex"
+          mode="horizontal"
+          router
+          class="el-menu-demo"
+        >
+          <el-menu-item index="/">首页</el-menu-item>
+          <el-menu-item index="/timestamp">时间戳转换</el-menu-item>
+          <el-menu-item index="/number-converter">数字大小写转换</el-menu-item>
+          <el-menu-item index="/base64">Base64编码解码</el-menu-item>
+          <el-menu-item index="/hash">哈希计算</el-menu-item>
+        </el-menu>
+      </el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+      <el-footer>
+        ProTools 工具集 ©2026
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      activeIndex: '/'
+    }
+  },
+  watch: {
+    $route(to) {
+      this.activeIndex = to.path;
+    }
+  }
 }
 </script>
 
@@ -28,48 +48,55 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  min-height: 100vh;
 }
 
-.navbar {
+.el-header {
   background-color: #34495e;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.navbar h1 {
-  color: white;
-  margin: 0;
-  text-align: center;
-}
-
-.navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+  padding: 0 20px;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
-.navbar li {
-  margin: 0 1rem;
-}
-
-.navbar a {
+.el-header h1 {
   color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  margin: 0;
+  flex: 1;
 }
 
-.navbar a:hover,
-.navbar a.router-link-active {
+.el-menu {
+  border-bottom: none;
+  background-color: transparent;
+}
+
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
+}
+
+.el-menu-item {
+  color: white;
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-menu-item:hover {
+  background-color: #42b883 !important;
+}
+
+.el-menu-item.is-active {
   background-color: #42b883;
+  color: white;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1rem;
+.el-main {
+  padding: 20px;
+}
+
+.el-footer {
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 </style>

@@ -1,35 +1,55 @@
 <template>
   <div class="converter">
-    <h2>🔓 Base64编码解码工具</h2>
-    <div class="converter-container">
-      <div class="input-section">
-        <label>输入文本：</label>
-        <textarea 
-          v-model="inputText" 
-          placeholder="输入要编码或解码的文本"
-          @input="convertText"
-        ></textarea>
-      </div>
+    <el-page-header content="🔓 Base64编码解码工具" />
+    <el-card class="converter-container">
+      <el-form :model="formData" label-position="top">
+        <el-form-item label="输入文本：">
+          <el-input 
+            v-model="formData.inputText" 
+            type="textarea"
+            :rows="4"
+            placeholder="输入要编码或解码的文本"
+            @input="convertText"
+            clearable
+          />
+        </el-form-item>
+      </el-form>
 
-      <div class="result-section">
-        <div class="result-item">
-          <label>Base64编码结果：</label>
-          <textarea :value="encodedText" readonly></textarea>
-          <button @click="copyEncoded" class="copy-btn">复制</button>
-        </div>
-        <div class="result-item">
-          <label>Base64解码结果：</label>
-          <textarea :value="decodedText" readonly></textarea>
-          <button @click="copyDecoded" class="copy-btn">复制</button>
-        </div>
-      </div>
+      <el-divider content-position="left">转换结果</el-divider>
 
-      <div class="actions">
-        <button @click="encodeText">手动编码</button>
-        <button @click="decodeText">手动解码</button>
-        <button @click="clearAll">清空</button>
-      </div>
-    </div>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="Base64编码结果：">
+            <el-input 
+              v-model="formData.encodedText" 
+              type="textarea"
+              :rows="4"
+              readonly 
+            />
+            <el-button @click="copyEncoded" size="small" style="margin-top: 10px;">复制</el-button>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Base64解码结果：">
+            <el-input 
+              v-model="formData.decodedText" 
+              type="textarea"
+              :rows="4"
+              readonly 
+            />
+            <el-button @click="copyDecoded" size="small" style="margin-top: 10px;">复制</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-divider />
+
+      <el-button-group>
+        <el-button @click="encodeText">手动编码</el-button>
+        <el-button @click="decodeText">手动解码</el-button>
+        <el-button @click="clearAll">清空</el-button>
+      </el-button-group>
+    </el-card>
   </div>
 </template>
 
@@ -38,45 +58,47 @@ export default {
   name: 'Base64Tool',
   data() {
     return {
-      inputText: '',
-      encodedText: '',
-      decodedText: ''
+      formData: {
+        inputText: '',
+        encodedText: '',
+        decodedText: ''
+      }
     }
   },
   methods: {
     convertText() {
-      if (!this.inputText) {
-        this.encodedText = '';
-        this.decodedText = '';
+      if (!this.formData.inputText) {
+        this.formData.encodedText = '';
+        this.formData.decodedText = '';
         return;
       }
 
       // 编码
-      this.encodedText = this.encodeBase64(this.inputText);
+      this.formData.encodedText = this.encodeBase64(this.formData.inputText);
 
       // 尝试解码输入的文本
       try {
-        this.decodedText = this.decodeBase64(this.inputText);
+        this.formData.decodedText = this.decodeBase64(this.formData.inputText);
       } catch (e) {
-        this.decodedText = '无法解码为有效文本';
+        this.formData.decodedText = '无法解码为有效文本';
       }
     },
     encodeText() {
-      if (!this.inputText) {
-        this.encodedText = '';
+      if (!this.formData.inputText) {
+        this.formData.encodedText = '';
         return;
       }
-      this.encodedText = this.encodeBase64(this.inputText);
+      this.formData.encodedText = this.encodeBase64(this.formData.inputText);
     },
     decodeText() {
-      if (!this.inputText) {
-        this.decodedText = '';
+      if (!this.formData.inputText) {
+        this.formData.decodedText = '';
         return;
       }
       try {
-        this.decodedText = this.decodeBase64(this.inputText);
+        this.formData.decodedText = this.decodeBase64(this.formData.inputText);
       } catch (e) {
-        this.decodedText = '无法解码为有效文本';
+        this.formData.decodedText = '无法解码为有效文本';
       }
     },
     encodeBase64(text) {
@@ -92,19 +114,19 @@ export default {
       }).join(''));
     },
     copyEncoded() {
-      navigator.clipboard.writeText(this.encodedText).then(() => {
-        alert('编码结果已复制到剪贴板');
+      navigator.clipboard.writeText(this.formData.encodedText).then(() => {
+        this.$message.success('编码结果已复制到剪贴板');
       });
     },
     copyDecoded() {
-      navigator.clipboard.writeText(this.decodedText).then(() => {
-        alert('解码结果已复制到剪贴板');
+      navigator.clipboard.writeText(this.formData.decodedText).then(() => {
+        this.$message.success('解码结果已复制到剪贴板');
       });
     },
     clearAll() {
-      this.inputText = '';
-      this.encodedText = '';
-      this.decodedText = '';
+      this.formData.inputText = '';
+      this.formData.encodedText = '';
+      this.formData.decodedText = '';
     }
   }
 }
@@ -112,98 +134,16 @@ export default {
 
 <style scoped>
 .converter {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 .converter-container {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-top: 1rem;
 }
 
-.input-section {
-  margin-bottom: 1.5rem;
-}
-
-.input-section label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.input-section textarea {
-  width: 100%;
-  height: 100px;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  resize: vertical;
-}
-
-.result-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.result-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.result-item label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.result-item textarea {
-  width: 100%;
-  height: 100px;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  resize: vertical;
-}
-
-.result-item .copy-btn {
-  align-self: flex-start;
-  margin-top: 0.5rem;
-  padding: 0.3rem 0.8rem;
-  background-color: #34495e;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.result-item .copy-btn:hover {
-  background-color: #2c3e50;
-}
-
-.actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:hover {
-  background-color: #359c6d;
+.el-divider {
+  margin: 20px 0;
 }
 </style>
