@@ -1,6 +1,6 @@
 <template>
   <div class="converter">
-    <el-page-header content="⏰ 时间戳转换工具" />
+    <el-page-header title="返回" content="⏰ 时间戳转换工具" @back="$router.go(-1) || $router.push('/')" />
     <el-card class="converter-container">
       <el-form :model="formData" label-position="top">
         <el-form-item label="输入时间戳或日期：">
