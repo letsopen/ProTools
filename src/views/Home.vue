@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <el-page-header content="欢迎使用ProTools工具集" />
     <p>这是一个实用的前端工具集合，包含多种常用的转换和计算功能。</p>
     <el-row :gutter="20" class="tools-grid">
       <el-col :span="6" v-for="tool in tools" :key="tool.name">
