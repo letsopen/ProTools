@@ -85,9 +85,7 @@ export default {
     
     // 将数字金额转换为中文大写
     convertNumberToChinese(num) {
-      const units = ['元', '角', '分'];
       const nums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-      const bigUnits = ['', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿'];
       
       // 将金额乘以100并四舍五入，转化为以分为单位的整数
       let intAndDec = Math.round(num * 100);
@@ -138,8 +136,6 @@ export default {
       
       const nums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
       const bigUnits = ['', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿'];
-      
-      let numStr = num.toString();
       
       // 处理亿位
       let yi = Math.floor(num / 100000000);
