@@ -30,6 +30,9 @@ import DiffTool from '../views/DiffTool.vue';
 import ImageBase64Tool from '../views/ImageBase64Tool.vue';
 import CsvJsonTool from '../views/CsvJsonTool.vue';
 import XmlTool from '../views/XmlTool.vue';
+import ColorPickerTool from '../views/ColorPickerTool.vue';
+import IdGenerator from '../views/IdGenerator.vue';
+import BmiCalculator from '../views/BmiCalculator.vue';
 
 const routes = [
   {
@@ -186,6 +189,21 @@ const routes = [
     path: '/xml-tool',
     name: 'XmlTool',
     component: XmlTool
+  },
+  {
+    path: '/color-picker',
+    name: 'ColorPickerTool',
+    component: ColorPickerTool
+  },
+  {
+    path: '/id-generator',
+    name: 'IdGenerator',
+    component: IdGenerator
+  },
+  {
+    path: '/bmi-calculator',
+    name: 'BmiCalculator',
+    component: BmiCalculator
   }
 ];
 

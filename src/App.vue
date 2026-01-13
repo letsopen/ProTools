@@ -40,6 +40,9 @@
                                                   <el-menu-item index="/image-base64-tool">图片Base64转换</el-menu-item>
                                                   <el-menu-item index="/csv-json-tool">CSV/JSON互转</el-menu-item>
                                                   <el-menu-item index="/xml-tool">XML格式化</el-menu-item>
+                                                            <el-menu-item index="/color-picker">取色器工具</el-menu-item>
+                                                            <el-menu-item index="/id-generator">ID生成器</el-menu-item>
+                                                            <el-menu-item index="/bmi-calculator">BMI计算器</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

@@ -198,6 +198,24 @@ export default {
           icon: '📋',
           description: 'XML格式化和验证',
           route: '/xml-tool'
+        },
+        {
+          name: '取色器工具',
+          icon: 'eyedropper',
+          description: '图片取色器，可从图片中提取颜色',
+          route: '/color-picker'
+        },
+        {
+          name: 'ID生成器',
+          icon: '🔢',
+          description: 'UUID和雪花算法ID生成',
+          route: '/id-generator'
+        },
+        {
+          name: 'BMI计算器',
+          icon: '⚖️',
+          description: '身体质量指数计算',
+          route: '/bmi-calculator'
         }
       ]
     }
