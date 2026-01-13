@@ -35,6 +35,11 @@
                                         <el-menu-item index="/jwt-tool">JWT工具</el-menu-item>
                                         <el-menu-item index="/base32-tool">Base32编码解码</el-menu-item>
                                         <el-menu-item index="/hex-binary-tool">Hex/Binary转换</el-menu-item>
+                                                  <el-menu-item index="/certificate-tool">数字证书工具</el-menu-item>
+                                                  <el-menu-item index="/diff-tool">文本Diff对比</el-menu-item>
+                                                  <el-menu-item index="/image-base64-tool">图片Base64转换</el-menu-item>
+                                                  <el-menu-item index="/csv-json-tool">CSV/JSON互转</el-menu-item>
+                                                  <el-menu-item index="/xml-tool">XML格式化</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

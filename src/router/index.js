@@ -25,6 +25,11 @@ import EccTool from '../views/EccTool.vue';
 import JwtTool from '../views/JwtTool.vue';
 import Base32Tool from '../views/Base32Tool.vue';
 import HexBinaryTool from '../views/HexBinaryTool.vue';
+import CertificateTool from '../views/CertificateTool.vue';
+import DiffTool from '../views/DiffTool.vue';
+import ImageBase64Tool from '../views/ImageBase64Tool.vue';
+import CsvJsonTool from '../views/CsvJsonTool.vue';
+import XmlTool from '../views/XmlTool.vue';
 
 const routes = [
   {
@@ -156,6 +161,31 @@ const routes = [
     path: '/hex-binary-tool',
     name: 'HexBinaryTool',
     component: HexBinaryTool
+  },
+  {
+    path: '/certificate-tool',
+    name: 'CertificateTool',
+    component: CertificateTool
+  },
+  {
+    path: '/diff-tool',
+    name: 'DiffTool',
+    component: DiffTool
+  },
+  {
+    path: '/image-base64-tool',
+    name: 'ImageBase64Tool',
+    component: ImageBase64Tool
+  },
+  {
+    path: '/csv-json-tool',
+    name: 'CsvJsonTool',
+    component: CsvJsonTool
+  },
+  {
+    path: '/xml-tool',
+    name: 'XmlTool',
+    component: XmlTool
   }
 ];
 

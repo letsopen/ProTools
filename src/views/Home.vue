@@ -168,6 +168,36 @@ export default {
           icon: '🔄',
           description: '十六进制与二进制转换',
           route: '/hex-binary-tool'
+        },
+        {
+          name: '数字证书工具',
+          icon: '📜',
+          description: 'X.509证书信息查看和验证',
+          route: '/certificate-tool'
+        },
+        {
+          name: '文本Diff对比',
+          icon: '🔍',
+          description: '对比两个文本的差异',
+          route: '/diff-tool'
+        },
+        {
+          name: '图片Base64转换',
+          icon: '🖼️',
+          description: '图片与Base64编码互转',
+          route: '/image-base64-tool'
+        },
+        {
+          name: 'CSV/JSON互转',
+          icon: '📊',
+          description: 'CSV与JSON格式转换',
+          route: '/csv-json-tool'
+        },
+        {
+          name: 'XML格式化',
+          icon: '📋',
+          description: 'XML格式化和验证',
+          route: '/xml-tool'
         }
       ]
     }
