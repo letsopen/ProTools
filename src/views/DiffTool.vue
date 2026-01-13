@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Diff from 'diff';
+import { diffLines } from 'diff';
 
 export default {
   name: 'DiffTool',
@@ -70,7 +70,7 @@ export default {
 
       try {
         // 使用diff库进行文本对比
-        const diff = Diff.diffLines(this.form.textA || '', this.form.textB || '');
+        const diff = diffLines(this.form.textA || '', this.form.textB || '');
         
         let resultHtml = '<div class="diff-content">';
         
