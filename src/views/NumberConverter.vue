@@ -1,12 +1,12 @@
 <template>
   <div class="converter">
-    <el-page-header title="返回" content="🔢 数字大小写转换工具" @back="$router.go(-1) || $router.push('/')" />
+    <el-page-header title="返回" content="💰 金额大小写转换工具" @back="$router.go(-1) || $router.push('/')" />
     <el-card class="converter-container">
       <el-form :model="formData" label-position="top">
-        <el-form-item label="输入数字：">
+        <el-form-item label="输入金额：">
           <el-input 
             v-model="formData.inputValue" 
-            placeholder="输入阿拉伯数字 (例如: 123456)"
+            placeholder="输入阿拉伯数字金额 (例如: 1234.56 或 100)"
             @input="convertNumbers"
             clearable
           />
@@ -16,19 +16,14 @@
       <el-divider content-position="left">转换结果</el-divider>
 
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="中文小写：">
-            <el-input v-model="formData.chineseLowercase" readonly />
+        <el-col :span="12">
+          <el-form-item label="中文大写金额：">
+            <el-input v-model="formData.amountUppercase" readonly />
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="中文大写：">
-            <el-input v-model="formData.chineseUppercase" readonly />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="罗马数字：">
-            <el-input v-model="formData.romanNumerals" readonly />
+        <el-col :span="12">
+          <el-form-item label="中文大写金额（带人民币符号）：">
+            <el-input v-model="formData.amountUppercaseWithSymbol" readonly />
           </el-form-item>
         </el-col>
       </el-row>
@@ -47,9 +42,8 @@ export default {
     return {
       formData: {
         inputValue: '',
-        chineseLowercase: '',
-        chineseUppercase: '',
-        romanNumerals: ''
+        amountUppercase: '',
+        amountUppercaseWithSymbol: ''
       }
     }
   },
@@ -59,160 +53,176 @@ export default {
         this.clearResults();
         return;
       }
-
-      const num = parseInt(this.formData.inputValue);
-      if (isNaN(num) || num < 0 || num > 999999999) {
+      
+      // 验证输入是否为有效的数字金额
+      const numStr = this.formData.inputValue.trim();
+      
+      // 使用正则表达式验证金额格式（最多两位小数）
+      if (!/^\d+(\.\d{1,2})?$/.test(numStr)) {
         this.clearResults();
+        this.$message.error('请输入有效的金额格式（最多两位小数）');
         return;
       }
-
-      this.formData.chineseLowercase = this.numberToChineseLowercase(num);
-      this.formData.chineseUppercase = this.numberToChineseUppercase(num);
-      this.formData.romanNumerals = this.numberToRoman(num);
+      
+      const num = parseFloat(numStr);
+      
+      if (isNaN(num) || num < 0 || num > 999999999999.99) { // 最大支持9999亿
+        this.clearResults();
+        this.$message.error('金额超出范围（0 - 999999999999.99）');
+        return;
+      }
+      
+      if (num === 0) {
+        this.formData.amountUppercase = '零元整';
+        this.formData.amountUppercaseWithSymbol = '人民币零元整';
+        return;
+      }
+      
+      const upperCaseAmount = this.convertNumberToChinese(num);
+      this.formData.amountUppercase = upperCaseAmount;
+      this.formData.amountUppercaseWithSymbol = '人民币' + upperCaseAmount;
     },
-    numberToChineseLowercase(num) {
-      const units = ['', '十', '百', '千'];
-      const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-
-      if (num === 0) return '零';
-
+    
+    // 将数字金额转换为中文大写
+    convertNumberToChinese(num) {
+      const units = ['元', '角', '分'];
+      const nums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+      const bigUnits = ['', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿'];
+      
+      // 将金额乘以100并四舍五入，转化为以分为单位的整数
+      let intAndDec = Math.round(num * 100);
+      
+      if (intAndDec === 0) {
+        return '零元整';
+      }
+      
+      let intPart = Math.floor(intAndDec / 100); // 整数部分
+      let decPart = intAndDec % 100; // 小数部分（以分为单位）
+      
       let result = '';
-      const strNum = num.toString();
-      const len = strNum.length;
-
+      
+      // 转换整数部分
+      if (intPart > 0) {
+        result += this.convertIntToChinese(intPart);
+      }
+      
+      // 转换小数部分
+      if (decPart > 0) {
+        if (decPart >= 10) {
+          // 十位和个位
+          const jiao = Math.floor(decPart / 10);
+          const fen = decPart % 10;
+          
+          if (jiao > 0) {
+            result += nums[jiao] + '角';
+          }
+          if (fen > 0) {
+            result += nums[fen] + '分';
+          }
+        } else {
+          // 不足1角的只有分
+          result += nums[decPart] + '分';
+        }
+      } else if (intPart > 0) {
+        result += '整';
+      }
+      
+      return result;
+    },
+    
+    // 转换整数部分为中文
+    convertIntToChinese(num) {
+      if (num === 0) {
+        return '零元';
+      }
+      
+      const nums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+      const bigUnits = ['', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿'];
+      
+      let numStr = num.toString();
+      
+      // 处理亿位
+      let yi = Math.floor(num / 100000000);
+      let remainAfterYi = num % 100000000;
+      
       // 处理万位
-      if (len > 4) {
-        const wan = Math.floor(num / 10000);
-        const remainder = num % 10000;
-        
-        result += this.convertSection(wan, digits, units) + '万';
-        
-        if (remainder > 0) {
-          if (remainder < 1000 && Math.floor(num / 10000) % 10 > 0) {
-            result += '零';
-          }
-          result += this.convertSection(remainder, digits, units);
-        }
-      } else {
-        result = this.convertSection(num, digits, units);
-      }
-
-      // 处理特殊情况
-      if (result.startsWith('一十')) {
-        result = result.substring(1); // "一十五" -> "十五"
-      }
-
-      return result;
-    },
-    convertSection(num, digits, units) {
-      if (num === 0) return '';
-
+      let wan = Math.floor(remainAfterYi / 10000);
+      let ge = remainAfterYi % 10000;
+      
       let result = '';
-      const strNum = num.toString();
-      const len = strNum.length;
-
-      for (let i = 0; i < len; i++) {
-        const digit = parseInt(strNum[i]);
-        if (digit !== 0) {
-          result += digits[digit] + units[len - 1 - i];
-        } else if (result && !result.endsWith('零')) {
-          // 添加零，但避免连续的零
-          const lastChar = result[result.length - 1];
-          if (lastChar !== '零') {
-            result += '零';
-          }
-        }
-      }
-
-      // 清理多余的零
-      result = result.replace(/零+/g, '零');
-      if (result.endsWith('零')) {
-        result = result.slice(0, -1);
-      }
-
-      return result;
-    },
-    numberToChineseUppercase(num) {
-      const units = ['', '拾', '佰', '仟'];
-      const digits = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-
-      if (num === 0) return '零';
-
-      let result = '';
-      const strNum = num.toString();
-      const len = strNum.length;
-
-      // 处理万位
-      if (len > 4) {
-        const wan = Math.floor(num / 10000);
-        const remainder = num % 10000;
+      
+      if (yi > 0) {
+        result += this.processSection(yi, nums, bigUnits.slice(0, 4)) + '亿';
         
-        result += this.convertSectionUppercase(wan, digits, units) + '万';
+        // 如果万位或个位不为0，需要加零
+        if ((wan > 0 || ge > 0) && (wan < 1000 || ge > 0)) {
+          result += '零';
+        }
+      }
+      
+      if (wan > 0) {
+        result += this.processSection(wan, nums, bigUnits.slice(0, 4)) + '万';
         
-        if (remainder > 0) {
-          if (remainder < 1000 && Math.floor(num / 10000) % 10 > 0) {
-            result += '零';
-          }
-          result += this.convertSectionUppercase(remainder, digits, units);
+        // 如果个位不为0且万位不足四位，需要加零
+        if (ge > 0 && ge < 1000) {
+          result += '零';
         }
-      } else {
-        result = this.convertSectionUppercase(num, digits, units);
       }
-
-      // 处理特殊情况
-      if (result.startsWith('壹拾')) {
-        result = result.substring(1); // "壹拾伍" -> "拾伍"
+      
+      if (ge > 0) {
+        result += this.processSection(ge, nums, bigUnits.slice(0, 4));
       }
-
+      
+      result += '元';
+      
       return result;
     },
-    convertSectionUppercase(num, digits, units) {
-      if (num === 0) return '';
-
+    
+    // 处理四位以内的数字
+    processSection(sectionNum, nums, units) {
+      if (sectionNum === 0) {
+        return '零';
+      }
+      
+      let numStr = sectionNum.toString();
       let result = '';
-      const strNum = num.toString();
-      const len = strNum.length;
-
-      for (let i = 0; i < len; i++) {
-        const digit = parseInt(strNum[i]);
-        if (digit !== 0) {
-          result += digits[digit] + units[len - 1 - i];
-        } else if (result && !result.endsWith('零')) {
-          const lastChar = result[result.length - 1];
-          if (lastChar !== '零') {
+      let zeroFlag = false; // 标记是否需要补零
+      
+      for (let i = 0; i < numStr.length; i++) {
+        let digit = parseInt(numStr[i]);
+        let pos = numStr.length - i - 1; // 当前数字的位置
+        
+        if (digit === 0) {
+          if (!result.endsWith('零') && i < numStr.length - 1) { // 不是最后一位且前面没刚加过零
+            zeroFlag = true;
+          }
+        } else {
+          if (zeroFlag) {
             result += '零';
+            zeroFlag = false;
+          }
+          result += nums[digit];
+          
+          // 不是最后一位才加单位
+          if (i < numStr.length - 1) {
+            result += units[pos];
           }
         }
       }
-
-      result = result.replace(/零+/g, '零');
-      if (result.endsWith('零')) {
-        result = result.slice(0, -1);
-      }
-
+      
+      // 特殊情况处理
+      result = result.replace(/壹拾/g, '拾'); // 一十 -> 拾
+      
       return result;
     },
-    numberToRoman(num) {
-      if (num <= 0 || num > 3999) return '';
-
-      const thousands = ["", "M", "MM", "MMM"];
-      const hundreds = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
-      const tens = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
-      const ones = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
-
-      return thousands[Math.floor(num / 1000)] +
-             hundreds[Math.floor((num % 1000) / 100)] +
-             tens[Math.floor((num % 100) / 10)] +
-             ones[num % 10];
-    },
+    
     clearAll() {
       this.formData.inputValue = '';
       this.clearResults();
     },
     clearResults() {
-      this.formData.chineseLowercase = '';
-      this.formData.chineseUppercase = '';
-      this.formData.romanNumerals = '';
+      this.formData.amountUppercase = '';
+      this.formData.amountUppercaseWithSymbol = '';
     }
   }
 }
