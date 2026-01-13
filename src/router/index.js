@@ -33,6 +33,8 @@ import XmlTool from '../views/XmlTool.vue';
 import ColorPickerTool from '../views/ColorPickerTool.vue';
 import IdGenerator from '../views/IdGenerator.vue';
 import BmiCalculator from '../views/BmiCalculator.vue';
+import ImageConverter from '../views/ImageConverter.vue';
+import AsciiArtGenerator from '../views/AsciiArtGenerator.vue';
 
 const routes = [
   {
@@ -204,6 +206,16 @@ const routes = [
     path: '/bmi-calculator',
     name: 'BmiCalculator',
     component: BmiCalculator
+  },
+  {
+    path: '/image-converter',
+    name: 'ImageConverter',
+    component: ImageConverter
+  },
+  {
+    path: '/ascii-art',
+    name: 'AsciiArtGenerator',
+    component: AsciiArtGenerator
   }
 ];
 

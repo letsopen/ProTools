@@ -216,6 +216,18 @@ export default {
           icon: '⚖️',
           description: '身体质量指数计算',
           route: '/bmi-calculator'
+        },
+        {
+          name: '图片转换压缩',
+          icon: '🖼️',
+          description: '图片格式转换和压缩工具',
+          route: '/image-converter'
+        },
+        {
+          name: 'ASCII艺术字符',
+          icon: '🆎',
+          description: '文本转ASCII艺术字符',
+          route: '/ascii-art'
         }
       ]
     }

@@ -43,6 +43,8 @@
                                                             <el-menu-item index="/color-picker">取色器工具</el-menu-item>
                                                             <el-menu-item index="/id-generator">ID生成器</el-menu-item>
                                                             <el-menu-item index="/bmi-calculator">BMI计算器</el-menu-item>
+                                                                      <el-menu-item index="/image-converter">图片转换压缩</el-menu-item>
+                                                                      <el-menu-item index="/ascii-art">ASCII艺术字符</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>
