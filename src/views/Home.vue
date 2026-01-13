@@ -120,6 +120,18 @@ export default {
           icon: '✂️',
           description: 'HTML、CSS、JavaScript代码压缩',
           route: '/code-minifier'
+        },
+        {
+          name: 'RSA加密工具',
+          icon: '🔐',
+          description: 'RSA密钥生成、加密解密、密钥验证',
+          route: '/rsa-tool'
+        },
+        {
+          name: 'SM2国密工具',
+          icon: '🇨🇳',
+          description: 'SM2密钥生成、加密解密、密钥验证',
+          route: '/sm2-tool'
         }
       ]
     }

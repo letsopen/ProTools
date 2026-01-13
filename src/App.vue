@@ -27,6 +27,8 @@
           <el-menu-item index="/checksum-tool">校验和</el-menu-item>
           <el-menu-item index="/http-request">HTTP请求</el-menu-item>
           <el-menu-item index="/code-minifier">代码压缩</el-menu-item>
+                    <el-menu-item index="/rsa-tool">RSA加密工具</el-menu-item>
+                    <el-menu-item index="/sm2-tool">SM2国密工具</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

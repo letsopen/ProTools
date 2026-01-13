@@ -17,6 +17,8 @@ import RegexTester from '../views/RegexTester.vue';
 import ChecksumTool from '../views/ChecksumTool.vue';
 import HttpRequestTool from '../views/HttpRequestTool.vue';
 import CodeMinifier from '../views/CodeMinifier.vue';
+import RsaTool from '../views/RsaTool.vue';
+import Sm2Tool from '../views/Sm2Tool.vue';
 
 const routes = [
   {
@@ -108,6 +110,16 @@ const routes = [
     path: '/code-minifier',
     name: 'CodeMinifier',
     component: CodeMinifier
+  },
+  {
+    path: '/rsa-tool',
+    name: 'RsaTool',
+    component: RsaTool
+  },
+  {
+    path: '/sm2-tool',
+    name: 'Sm2Tool',
+    component: Sm2Tool
   }
 ];
 
