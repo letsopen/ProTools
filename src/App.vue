@@ -31,6 +31,10 @@
                     <el-menu-item index="/sm2-tool">SM2国密工具</el-menu-item>
                               <el-menu-item index="/aes-tool">AES加密工具</el-menu-item>
                               <el-menu-item index="/sm4-tool">SM4国密工具</el-menu-item>
+                                        <el-menu-item index="/ecc-tool">ECC椭圆曲线工具</el-menu-item>
+                                        <el-menu-item index="/jwt-tool">JWT工具</el-menu-item>
+                                        <el-menu-item index="/base32-tool">Base32编码解码</el-menu-item>
+                                        <el-menu-item index="/hex-binary-tool">Hex/Binary转换</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

@@ -144,6 +144,30 @@ export default {
           icon: '🇨🇳',
           description: 'SM4密钥生成、加密解密',
           route: '/sm4-tool'
+        },
+        {
+          name: 'ECC椭圆曲线工具',
+          icon: '🔒',
+          description: 'ECC密钥生成、签名验证',
+          route: '/ecc-tool'
+        },
+        {
+          name: 'JWT工具',
+          icon: '🗝️',
+          description: 'JWT编码、解码、验证',
+          route: '/jwt-tool'
+        },
+        {
+          name: 'Base32编码解码',
+          icon: '🔓',
+          description: 'Base32编码与解码',
+          route: '/base32-tool'
+        },
+        {
+          name: 'Hex/Binary转换',
+          icon: '🔄',
+          description: '十六进制与二进制转换',
+          route: '/hex-binary-tool'
         }
       ]
     }

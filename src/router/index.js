@@ -21,6 +21,10 @@ import RsaTool from '../views/RsaTool.vue';
 import Sm2Tool from '../views/Sm2Tool.vue';
 import AesTool from '../views/AesTool.vue';
 import Sm4Tool from '../views/Sm4Tool.vue';
+import EccTool from '../views/EccTool.vue';
+import JwtTool from '../views/JwtTool.vue';
+import Base32Tool from '../views/Base32Tool.vue';
+import HexBinaryTool from '../views/HexBinaryTool.vue';
 
 const routes = [
   {
@@ -132,6 +136,26 @@ const routes = [
     path: '/sm4-tool',
     name: 'Sm4Tool',
     component: Sm4Tool
+  },
+  {
+    path: '/ecc-tool',
+    name: 'EccTool',
+    component: EccTool
+  },
+  {
+    path: '/jwt-tool',
+    name: 'JwtTool',
+    component: JwtTool
+  },
+  {
+    path: '/base32-tool',
+    name: 'Base32Tool',
+    component: Base32Tool
+  },
+  {
+    path: '/hex-binary-tool',
+    name: 'HexBinaryTool',
+    component: HexBinaryTool
   }
 ];
 
