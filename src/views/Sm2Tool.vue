@@ -146,7 +146,7 @@
                 type="textarea"
                 :rows="2"
                 readonly
-                :type="validateResultType"
+                :class="validateResultType === 'success' ? 'is-success' : validateResultType === 'error' ? 'is-error' : 'is-info'"
                 placeholder="验证结果将显示在这里"
               />
             </el-form-item>
@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { SM2, utils } from 'sm-crypto';
+import { SM2 } from 'sm-crypto';
 
 export default {
   name: 'Sm2Tool',
