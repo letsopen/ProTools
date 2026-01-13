@@ -29,6 +29,8 @@
           <el-menu-item index="/code-minifier">代码压缩</el-menu-item>
                     <el-menu-item index="/rsa-tool">RSA加密工具</el-menu-item>
                     <el-menu-item index="/sm2-tool">SM2国密工具</el-menu-item>
+                              <el-menu-item index="/aes-tool">AES加密工具</el-menu-item>
+                              <el-menu-item index="/sm4-tool">SM4国密工具</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

@@ -132,6 +132,18 @@ export default {
           icon: '🇨🇳',
           description: 'SM2密钥生成、加密解密、密钥验证',
           route: '/sm2-tool'
+        },
+        {
+          name: 'AES加密工具',
+          icon: '🔐',
+          description: 'AES密钥生成、加密解密',
+          route: '/aes-tool'
+        },
+        {
+          name: 'SM4国密工具',
+          icon: '🇨🇳',
+          description: 'SM4密钥生成、加密解密',
+          route: '/sm4-tool'
         }
       ]
     }

@@ -19,6 +19,8 @@ import HttpRequestTool from '../views/HttpRequestTool.vue';
 import CodeMinifier from '../views/CodeMinifier.vue';
 import RsaTool from '../views/RsaTool.vue';
 import Sm2Tool from '../views/Sm2Tool.vue';
+import AesTool from '../views/AesTool.vue';
+import Sm4Tool from '../views/Sm4Tool.vue';
 
 const routes = [
   {
@@ -120,6 +122,16 @@ const routes = [
     path: '/sm2-tool',
     name: 'Sm2Tool',
     component: Sm2Tool
+  },
+  {
+    path: '/aes-tool',
+    name: 'AesTool',
+    component: AesTool
+  },
+  {
+    path: '/sm4-tool',
+    name: 'Sm4Tool',
+    component: Sm4Tool
   }
 ];
 
