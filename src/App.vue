@@ -14,6 +14,19 @@
           <el-menu-item index="/number-converter">数字大小写转换</el-menu-item>
           <el-menu-item index="/base64">Base64编码解码</el-menu-item>
           <el-menu-item index="/hash">哈希计算</el-menu-item>
+          <el-menu-item index="/json-formatter">JSON格式化</el-menu-item>
+          <el-menu-item index="/url-coder">URL编解码</el-menu-item>
+          <el-menu-item index="/number-base-converter">进制转换</el-menu-item>
+          <el-menu-item index="/color-converter">颜色转换</el-menu-item>
+          <el-menu-item index="/text-utils">文本处理</el-menu-item>
+          <el-menu-item index="/password-generator">密码生成</el-menu-item>
+          <el-menu-item index="/time-calculator">时间计算</el-menu-item>
+          <el-menu-item index="/unit-converter">单位转换</el-menu-item>
+          <el-menu-item index="/qrcode-generator">二维码生成</el-menu-item>
+          <el-menu-item index="/regex-tester">正则测试</el-menu-item>
+          <el-menu-item index="/checksum-tool">校验和</el-menu-item>
+          <el-menu-item index="/http-request">HTTP请求</el-menu-item>
+          <el-menu-item index="/code-minifier">代码压缩</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>

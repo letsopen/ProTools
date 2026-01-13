@@ -42,6 +42,84 @@ export default {
           icon: '🔒',
           description: 'MD5、SHA等多种哈希算法',
           route: '/hash'
+        },
+        {
+          name: 'JSON格式化',
+          icon: '📋',
+          description: '格式化、验证和压缩JSON数据',
+          route: '/json-formatter'
+        },
+        {
+          name: 'URL编解码',
+          icon: '🌐',
+          description: 'URL编码和解码工具',
+          route: '/url-coder'
+        },
+        {
+          name: '进制转换',
+          icon: '🔄',
+          description: '二进制、八进制、十进制、十六进制转换',
+          route: '/number-base-converter'
+        },
+        {
+          name: '颜色转换',
+          icon: '🎨',
+          description: 'HEX、RGB、HSL颜色值转换',
+          route: '/color-converter'
+        },
+        {
+          name: '文本处理',
+          icon: '📝',
+          description: '文本大小写转换、排序、统计等',
+          route: '/text-utils'
+        },
+        {
+          name: '密码生成',
+          icon: '🔑',
+          description: '生成安全的随机密码',
+          route: '/password-generator'
+        },
+        {
+          name: '时间计算',
+          icon: '⏰',
+          description: '时间加减、时间差计算',
+          route: '/time-calculator'
+        },
+        {
+          name: '单位转换',
+          icon: '📐',
+          description: '长度、重量、温度等多种单位转换',
+          route: '/unit-converter'
+        },
+        {
+          name: '二维码生成',
+          icon: '📱',
+          description: '生成文本或网址的二维码',
+          route: '/qrcode-generator'
+        },
+        {
+          name: '正则测试',
+          icon: '🔍',
+          description: '测试正则表达式的匹配效果',
+          route: '/regex-tester'
+        },
+        {
+          name: '校验和',
+          icon: '✅',
+          description: 'CRC32、Adler32等校验算法',
+          route: '/checksum-tool'
+        },
+        {
+          name: 'HTTP请求',
+          icon: '🌐',
+          description: '发送GET/POST等HTTP请求',
+          route: '/http-request'
+        },
+        {
+          name: '代码压缩',
+          icon: '✂️',
+          description: 'HTML、CSS、JavaScript代码压缩',
+          route: '/code-minifier'
         }
       ]
     }
